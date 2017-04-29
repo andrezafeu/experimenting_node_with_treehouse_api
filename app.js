@@ -14,25 +14,30 @@ function getProfile(username) {
     try {
         // Connect to the API URL (https://teamtreehouse.com/username.json)
         const request = https.get(`https://teamtreehouse.com/${username}.json`, response => {
-                                    // console.log('status:', response.statusCode);
-                                    // Read the data
-                                    let body = "";
-                                    // A data event in node.js is an end event
-                                    response.on('data', data => {
-                                        body += data.toString();
-                                    });
-                                    // Implement end handler
-                                    response.on('end', () => {
-                                        try {
-                                            // Parse the data
-                                            const profile = JSON.parse(body)
-                                            // console.dir(profile);
-                                            printMessage(username, profile.badges.length, profile.points.JavaScript)
-                                        } catch (error) {
-                                            printError(error);
-                                        }
-                                    });
-
+                                    if (response.statusCode === 200) {
+                                        // console.log('status:', response.statusCode);
+                                        // Read the data
+                                        let body = "";
+                                        // A data event in node.js is an end event
+                                        response.on('data', data => {
+                                            body += data.toString();
+                                        });
+                                        // Implement end handler
+                                        response.on('end', () => {
+                                            try {
+                                                // Parse the data
+                                                const profile = JSON.parse(body)
+                                                // console.dir(profile);
+                                                printMessage(username, profile.badges.length, profile.points.JavaScript)
+                                            } catch (error) {
+                                                printError(error);
+                                            }
+                                        });
+                                    } else {
+                                        const message = `There was an error getting the profile for ${username} (${response.statusCode})`;
+                                        const statusCodeError = new Error(message);
+                                        printError(statusCodeError);
+                                    }
                                   });
         request.on('error', printError)
     } catch (error) {
