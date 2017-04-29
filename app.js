@@ -25,6 +25,7 @@ function getProfile(username) {
                                 });
 
                               });
+    request.on('error', error => console.error(`Problem with request: ${error.message}`))
 }
 
 // Slice the array starting on index 2. This is done to discard the first 2 args in the command line.
