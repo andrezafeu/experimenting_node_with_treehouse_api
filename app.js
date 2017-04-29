@@ -1,6 +1,10 @@
 // Require https module
 const https = require('https');
 
+function printError(error) {
+    console.log(error.message);
+}
+
 function printMessage(username, badgeCount, points) {
   const message = `${username} has ${badgeCount} total badge(s) and ${points} points in JavaScript.`;
   console.log(message);
@@ -25,14 +29,14 @@ function getProfile(username) {
                                             // console.dir(profile);
                                             printMessage(username, profile.badges.length, profile.points.JavaScript)
                                         } catch (error) {
-                                            console.error(error.message);
+                                            printError(error);
                                         }
                                     });
 
                                   });
-        request.on('error', error => console.error(`Problem with request: ${error.message}`))
+        request.on('error', printError)
     } catch (error) {
-        console.error(error.message);
+        printError(error);
     }
 }
 
