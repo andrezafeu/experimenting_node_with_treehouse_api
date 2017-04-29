@@ -19,10 +19,14 @@ function getProfile(username) {
                                     });
                                     // Implement end handler
                                     response.on('end', () => {
-                                        // Parse the data
-                                        const profile = JSON.parse(body)
-                                        // console.dir(profile);
-                                        printMessage(username, profile.badges.length, profile.points.JavaScript)
+                                        try {
+                                            // Parse the data
+                                            const profile = JSON.parse(body)
+                                            // console.dir(profile);
+                                            printMessage(username, profile.badges.length, profile.points.JavaScript)
+                                        } catch (error) {
+                                            console.error(error.message);
+                                        }
                                     });
 
                                   });
