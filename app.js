@@ -9,5 +9,16 @@ function printMessage(username, badgeCount, points) {
 
 // Connect to the API URL (https://teamtreehouse.com/username.json)
 const request = https.get(`https://teamtreehouse.com/${username}.json`, response => {
-                            console.log(response.statusCode);
+                            console.log('status:', response.statusCode);
+                            // Read the data
+                            let body = "";
+                            // A data event in node.js is and end event
+                            response.on('data', data => {
+                                body += data.toString();
+                            });
+                            // Implement end handler
+                            response.on('end', () => {
+                                console.log(body);
+                            });
+
                           });
