@@ -18,8 +18,10 @@ const request = https.get(`https://teamtreehouse.com/${username}.json`, response
                             });
                             // Implement end handler
                             response.on('end', () => {
+                                // Parse the data
                                 const profile = JSON.parse(body)
-                                console.dir(profile);
+                                // console.dir(profile);
+                                printMessage(username, profile.badges.length, profile.points.JavaScript)
                             });
 
                           });
